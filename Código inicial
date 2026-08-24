@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Para Programadores</title>
+    <meta name="description" content="Um quiz interativo">
+</head>
+
+<body>
+    <header>
+        <h1>Quiz Interativo para programadores</h1>
+        <p>Teste seus conhecimento e veja qual pontuação você consegue fazer</p>
+    </header>
+    <main>
+        <!--Introdução-->
+        <section>
+            <h2>Sobre esse Quiz</h2>
+            <p>Este quiz foi desenvolvido para aprimorar os seus conhecimentos, como linguagens
+            <p>
+            <p>Inclindo multipls escolha, textos e perguntas legas e interativas </p>
+            <p> Desafie-se com esse quiz!</p>
+        </section>
+        <!--Pergunta 1: mútlipla escolha -->
+        <section>
+            <h2>Pergunta 1: Qual linguagem é usada para estruturar paginas web?</h2>
+            <form>
+                <input type="radio" value="Python" id="p1a" name="pergunta1">
+                <label for="p1a">Python</label> <br>
+                <input type="radio" value="HTML" id="p1b" name="pergunta1">
+                <label for="p1a">HTML</label> <br>
+                <input type="radio" value="JavaScript" id="p1c" name="pergunta1">
+                <label for="p1a">JavaScript</label> <br>
+                <input type="radio" value="Portugol" id="p1d" name="pergunta1">
+                <label for="p1a">Portugol</label>
+            </form>
+        </section>
+        <!--Pergunta 2: Texto-->
+        <section>
+            <h2>Pergunta 2: Na URL, https://www.google.com, o trecho google.com, é o? </h2>
+            <form>
+                <input type="text" id="p2" name="pergunta2" placeholder="Digite Sua Resposta..">
+            </form>
+        </section>
+        <!--Pergunta 3:senha-->
+        <section>
+            <h2>Pergunta 3: Escreva um exemplo de Senha Forte:</h2>
+            <form>
+                <input type="password" id="p3" name="Pergunta 3" placeholder="Digite uma senha..">
+            </form>
+        </section>
+        <!--Pergunta 4: data-->
+        <section>
+            <h2>Pergunta 4: Em que ano o HTML lançou a sua primeira versão?</h2>
+            <form>
+                <input type="data" id="p4" name="pergunta4">
+            </form>
+        </section>
+        <!--Pergunta 5: Upload-->
+        <section>
+            <h2>Pergunta 5: Faça um upload de um arquivo, com um doc em HTML</h2>
+            <form>
+                <input type="file" id="p5" name="pergunta5">
+            </form>
+        </section>
+        <!--Pergunta 6: Imagens-->
+        <section>
+            <h2> Qual linguagem é representada pelo Logo abaixo? </h2>
+            <img src="images.png" alt="Logotipo de uma Linguagem">
+            <input type="text" id="p6" name="pergunta6" placeholder="Digite a sua resposta...">
+        </section>
+        <!--Tabela de pontuação-->
+        <section>
+            <h2> Tabela de pontuação:</h2>
+            <table border="5">
+                <tr>
+                    <td>0-5
+                        Não Desista, você não está tãao mal assim!</td>
+                </tr>
+                <tr>
+                    <td>5-10
+                        Você é um genio da programação! Parabéns!</td>
+                </tr>
+        </section>
+    </main>
+</body>
+<html>
