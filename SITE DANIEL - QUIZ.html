@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DevQuiz | Desafio para Programadores</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --azul: #38bdf8;
+            --roxo: #8b5cf6;
+            --verde: #22c55e;
+            --vermelho: #ef4444;
+            --fundo: #070b18;
+            --card: rgba(20, 28, 50, 0.78);
+            --texto: #f8fafc;
+            --texto-secundario: #94a3b8;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--texto);
+            min-height: 100vh;
+
+            background:
+                radial-gradient(circle at top left, #172554, transparent 40%),
+                radial-gradient(circle at bottom right, #3b0764, transparent 40%),
+                var(--fundo);
+
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+
+            width: 400px;
+            height: 400px;
+
+            border-radius: 50%;
+            filter: blur(120px);
+
+            opacity: 0.25;
+            z-index: -1;
+        }
+
+        body::before {
+            background: #2563eb;
+            top: -150px;
+            left: -100px;
+        }
+
+        body::after {
+            background: #7c3aed;
+            bottom: -150px;
+            right: -100px;
+        }
+
+        /* HEADER */
+
+        header {
+            min-height: 330px;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            padding: 40px 20px;
+        }
+
+        .badge {
+            padding: 8px 18px;
+
+            margin-bottom: 20px;
+
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            border-radius: 50px;
+
+            color: var(--azul);
+
+            background: rgba(56, 189, 248, 0.08);
+
+            font-size: 14px;
+        }
+
+        header h1 {
+            font-size: clamp(42px, 7vw, 75px);
+
+            max-width: 900px;
+
+            line-height: 1.1;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #38bdf8,
+                #a78bfa
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            max-width: 650px;
+
+            margin-top: 25px;
+
+            font-size: 18px;
+
+            line-height: 1.6;
+
+            color: var(--texto-secundario);
+        }
+
+        /* PROGRESSO */
+
+        .progress-container {
+            width: min(900px, 90%);
+
+            margin: 10px auto 40px;
+        }
+
+        .progress-info {
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 10px;
+
+            color: var(--texto-secundario);
+        }
+
+        .progress-bar {
+            height: 10px;
+
+            background: #1e293b;
+
+            border-radius: 50px;
+
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul),
+                    var(--roxo)
+                );
+
+            transition: 0.4s;
+
+            border-radius: 50px;
+        }
+
+        /* MAIN */
+
+        main {
+            width: min(900px, 92%);
+
+            margin: auto;
+
+            padding-bottom: 80px;
+        }
+
+        /* CARDS */
+
+        .quiz-card {
+            padding: 35px;
+
+            margin-bottom: 25px;
+
+            border-radius: 24px;
+
+            background: var(--card);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.3);
+        }
+
+        .question-number {
+            display: flex;
+
+            width: 45px;
+            height: 45px;
+
+            justify-content: center;
+            align-items: center;
+
+            margin-bottom: 20px;
+
+            border-radius: 14px;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul),
+                    var(--roxo)
+                );
+        }
+
+        .quiz-card h2 {
+            font-size: 22px;
+
+            line-height: 1.4;
+
+            margin-bottom: 25px;
+        }
+
+        /* OPÇÕES */
+
+        .options {
+            display: grid;
+
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+
+            align-items: center;
+
+            padding: 16px 20px;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            background:
+                rgba(255, 255, 255, 0.04);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            transition: 0.25s;
+        }
+
+        .option:hover {
+            background:
+                rgba(56, 189, 248, 0.08);
+
+            border-color:
+                rgba(56, 189, 248, 0.5);
+        }
+
+        .option input {
+            margin-right: 12px;
+
+            accent-color: var(--azul);
+        }
+
+        /* INPUTS */
+
+        input[type="text"],
+        input[type="password"],
+        input[type="number"] {
+            width: 100%;
+
+            padding: 17px;
+
+            border-radius: 14px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.1);
+
+            background:
+                rgba(0, 0, 0, 0.2);
+
+            color: white;
+
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+
+            border-color: var(--azul);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(56, 189, 248, 0.1);
+        }
+
+        input[type="file"] {
+            width: 100%;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            border:
+                2px dashed
+                rgba(56, 189, 248, 0.4);
+
+            color: white;
+        }
+
+        /* IMAGEM */
+
+        .language-image {
+            width: 160px;
+
+            display: block;
+
+            margin-bottom: 20px;
+
+            padding: 20px;
+
+            background: white;
+
+            border-radius: 20px;
+        }
+
+        /* BOTÃO */
+
+        .finish-button {
+            width: 100%;
+
+            padding: 20px;
+
+            border: none;
+
+            border-radius: 18px;
+
+            cursor: pointer;
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #0ea5e9,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 15px 40px
+                rgba(99, 102, 241, 0.35);
+        }
+
+        .finish-button:hover {
+            transform: translateY(-4px);
+        }
+
+        /* RESULTADO */
+
+        .result {
+            display: none;
+
+            margin-top: 30px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(56, 189, 248, 0.15),
+                    rgba(139, 92, 246, 0.15)
+                );
+
+            border:
+                1px solid
+                rgba(56, 189, 248, 0.3);
+
+            animation: aparecer 0.5s ease;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result h2 {
+            font-size: 32px;
+
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 65px;
+
+            font-weight: bold;
+
+            color: var(--azul);
+
+            margin: 20px 0;
+        }
+
+        .result p {
+            font-size: 18px;
+
+            color: var(--texto-secundario);
+
+            line-height: 1.6;
+        }
+
+        @keyframes aparecer {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        /* RESPONSIVO */
+
+        @media (max-width: 600px) {
+
+            header {
+                min-height: 260px;
+            }
+
+            .quiz-card {
+                padding: 25px 20px;
+            }
+
+            .score {
+                font-size: 50px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header>
+
+        <div class="badge">
+            🚀 DESAFIO PARA DESENVOLVEDORES
+        </div>
+
+        <h1>
+            Quanto você sabe sobre programação?
+        </h1>
+
+        <p>
+            Responda às perguntas e descubra seu nível
+            de conhecimento em programação.
+        </p>
+
+    </header>
+
+
+    <!-- PROGRESSO -->
+
+    <div class="progress-container">
+
+        <div class="progress-info">
+
+            <span>Seu progresso</span>
+
+            <span id="progressText">
+                0 de 6 respondidas
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress"
+                id="progress"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <main>
+
+
+        <!-- PERGUNTA 1 -->
+
+        <section class="quiz-card">
+
+            <div class="question-number">
+                01
+            </div>
+
+            <h2>
+                Qual linguagem é utilizada para estruturar páginas da web?
+            </h2>
+
+            <div class="options">
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="pergunta1"
+                        value="Python"
+                    >
+
+                    Python
+
+                </label>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="pergunta1"
+                        value="HTML"
+                    >
+
+                    HTML
+
+                </label>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="pergunta1"
+                        value="JavaScript"
+                    >
+
+                    JavaScript
+
+                </label>
+
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="pergunta1"
+                        value="Portugol"
+                    >
+
+                    Portugol
+
+                </label>
+
+            </div>
+
+        </section>
+
+
+        <!-- PERGUNTA 2 -->
+
+        <section class="quiz-card">
+
+            <div class="question-number">
+                02
+            </div>
+
+            <h2>
+                Na URL https://www.google.com, o trecho "google.com" é o quê?
+            </h2>
+
+            <input
+                type="text"
+                id="p2"
+                placeholder="Digite sua resposta..."
+            >
+
+        </section>
+
+
+        <!-- PERGUNTA 3 -->
+
+        <section class="quiz-card">
+
+            <div class="question-number">
+                03
+            </div>
+
+            <h2>
+                Digite um exemplo de senha forte:
+            </h2>
+
+            <input
+                type="password"
+                id="p3"
+                placeholder="Digite uma senha..."
+            >
+
+        </section>
+
+
+        <!-- PERGUNTA 4 -->
+
+        <section class="quiz-card">
+
+            <div class="question-number">
+                04
+            </div>
+
+            <h2>
+                Em que ano foi lançada a primeira versão do HTML?
+            </h2>
+
+            <input
+                type="number"
+                id="p4"
+                placeholder="Digite o ano..."
+            >
+
+        </section>
+
+
+        <!-- PERGUNTA 5 -->
+
+        <section class="quiz-card">
+
+            <div class="question-number">
+                05
+            </div>
+
+            <h2>
+                Faça upload de um arquivo HTML:
+            </h2>
+
+            <input
+                type="file"
+                id="p5"
+                accept=".html,.htm"
+            >
+
+        </section>
+
+
+       <!-- PERGUNTA 6 -->
+
+<section class="quiz-card">
+
+    <div class="question-number">
+        06
+    </div>
+
+    <h2>
+        Qual linguagem de programação possui uma xícara de café em seu logo?
+    </h2>
+
+    <input
+        type="text"
+        id="p6"
+        placeholder="Digite sua resposta..."
+    >
+
+</section>
+
+
+        <!-- BOTÃO -->
+
+        <button
+            class="finish-button"
+            onclick="finalizarQuiz()"
+        >
+
+            FINALIZAR DESAFIO 🚀
+
+        </button>
+
+
+        <!-- RESULTADO -->
+
+        <section
+            class="result"
+            id="result"
+        >
+
+            <h2 id="resultTitle">
+                Resultado
+            </h2>
+
+            <div
+                class="score"
+                id="score"
+            >
+                0/6
+            </div>
+
+            <p id="resultMessage">
+            </p>
+
+        </section>
+
+
+    </main>
+
+
+    <script>
+
+        /* =========================
+           PROGRESSO
+        ========================== */
+
+        const inputs =
+            document.querySelectorAll("input");
+
+        inputs.forEach(input => {
+
+            input.addEventListener(
+                "change",
+                atualizarProgresso
+            );
+
+            input.addEventListener(
+                "input",
+                atualizarProgresso
+            );
+
+        });
+
+
+        function atualizarProgresso() {
+
+            let respondidas = 0;
+
+
+            /* PERGUNTA 1 */
+
+            if (
+                document.querySelector(
+                    'input[name="pergunta1"]:checked'
+                )
+            ) {
+                respondidas++;
+            }
+
+
+            /* PERGUNTA 2 */
+
+            if (
+                document
+                    .getElementById("p2")
+                    .value
+                    .trim()
+            ) {
+                respondidas++;
+            }
+
+
+            /* PERGUNTA 3 */
+
+            if (
+                document
+                    .getElementById("p3")
+                    .value
+                    .trim()
+            ) {
+                respondidas++;
+            }
+
+
+            /* PERGUNTA 4 */
+
+            if (
+                document
+                    .getElementById("p4")
+                    .value
+                    .trim()
+            ) {
+                respondidas++;
+            }
+
+
+            /* PERGUNTA 5 */
+
+            if (
+                document
+                    .getElementById("p5")
+                    .files
+                    .length > 0
+            ) {
+                respondidas++;
+            }
+
+
+            /* PERGUNTA 6 */
+
+            if (
+                document
+                    .getElementById("p6")
+                    .value
+                    .trim()
+            ) {
+                respondidas++;
+            }
+
+
+            /* PORCENTAGEM */
+
+            const porcentagem =
+                (respondidas / 6) * 100;
+
+
+            document
+                .getElementById("progress")
+                .style.width =
+                porcentagem + "%";
+
+
+            document
+                .getElementById("progressText")
+                .textContent =
+                respondidas +
+                " de 6 respondidas";
+
+        }
+
+
+        /* =========================
+           FINALIZAR QUIZ
+        ========================== */
+
+        function finalizarQuiz() {
+
+            let pontos = 0;
+
+
+            /* RESPOSTA 1 */
+
+            const resposta1 =
+                document.querySelector(
+                    'input[name="pergunta1"]:checked'
+                );
+
+            if (
+                resposta1 &&
+                resposta1.value === "HTML"
+            ) {
+                pontos++;
+            }
+
+
+            /* RESPOSTA 2 */
+
+            const resposta2 =
+                document
+                    .getElementById("p2")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+            if (
+                resposta2.includes("domínio") ||
+                resposta2.includes("dominio")
+            ) {
+                pontos++;
+            }
+
+
+            /* RESPOSTA 3 */
+
+            const senha =
+                document
+                    .getElementById("p3")
+                    .value;
+
+            /*
+                Critérios:
+
+                - mínimo 8 caracteres
+                - letra maiúscula
+                - letra minúscula
+                - número
+                - caractere especial
+            */
+
+            const senhaForte =
+                senha.length >= 8 &&
+                /[A-Z]/.test(senha) &&
+                /[a-z]/.test(senha) &&
+                /[0-9]/.test(senha) &&
+                /[^A-Za-z0-9]/.test(senha);
+
+            if (senhaForte) {
+                pontos++;
+            }
+
+
+            /* RESPOSTA 4 */
+
+            const resposta4 =
+                document
+                    .getElementById("p4")
+                    .value
+                    .trim();
+
+            if (
+                resposta4 === "1991"
+            ) {
+                pontos++;
+            }
+
+
+            /* RESPOSTA 5 */
+
+            const arquivo =
+                document
+                    .getElementById("p5")
+                    .files[0];
+
+            if (arquivo) {
+
+                const nomeArquivo =
+                    arquivo.name.toLowerCase();
+
+                if (
+                    nomeArquivo.endsWith(".html") ||
+                    nomeArquivo.endsWith(".htm")
+                ) {
+                    pontos++;
+                }
+
+            }
+
+
+            /* RESPOSTA 6 */
+
+const resposta6 =
+    document
+        .getElementById("p6")
+        .value
+        .toLowerCase()
+        .trim();
+
+if (
+    resposta6 === "java"
+) {
+    pontos++;
+}
+
+
+            /* =========================
+               MOSTRAR RESULTADO
+            ========================== */
+
+            const resultado =
+                document.getElementById("result");
+
+            const titulo =
+                document.getElementById("resultTitle");
+
+            const pontuacao =
+                document.getElementById("score");
+
+            const mensagem =
+                document.getElementById("resultMessage");
+
+
+            pontuacao.textContent =
+                pontos + "/6";
+
+
+            if (pontos === 6) {
+
+                titulo.textContent =
+                    "🏆 PERFEITO!";
+
+                mensagem.textContent =
+                    "Você acertou todas as perguntas! Seu conhecimento em programação está excelente!";
+
+            }
+
+            else if (pontos >= 4) {
+
+                titulo.textContent =
+                    "🚀 MUITO BOM!";
+
+                mensagem.textContent =
+                    "Você tem ótimos conhecimentos em programação. Continue praticando para alcançar a pontuação máxima!";
+
+            }
+
+            else if (pontos >= 2) {
+
+                titulo.textContent =
+                    "💻 BOM COMEÇO!";
+
+                mensagem.textContent =
+                    "Você já possui alguns conhecimentos importantes. Continue estudando e praticando!";
+
+            }
+
+            else {
+
+                titulo.textContent =
+                    "📚 CONTINUE ESTUDANDO!";
+
+                mensagem.textContent =
+                    "Todo programador começa de algum lugar. Continue praticando e tente novamente!";
+
+            }
+
+
+            /* MOSTRAR RESULTADO */
+
+            resultado.classList.add("show");
+
+
+            /* ROLAR ATÉ O RESULTADO */
+
+            resultado.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "center"
+
+            });
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
