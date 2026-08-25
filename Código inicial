@@ -16,10 +16,10 @@
             <h2>Sobre esse Quiz</h2>
             <p>Este quiz foi desenvolvido para aprimorar os seus conhecimentos, como linguagens
             <p>
-            <p>Inclindo multipls escolha, textos e perguntas legas e interativas </p>
+            <p>Incluindo multiplas escolhas, textos e perguntas legais e interativas </p>
             <p> Desafie-se com esse quiz!</p>
         </section>
-        <!--Pergunta 1: mútlipla escolha -->
+        <!--Pergunta 1: múltlipla escolha -->
         <section>
             <h2>Pergunta 1: Qual linguagem é usada para estruturar paginas web?</h2>
             <form>
